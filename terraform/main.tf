@@ -20,6 +20,7 @@ resource "render_web_service" "flask_app" {
   runtime_source = {
     image = {
       image_url = var.image_url
+      tag       = var.image_tag
     }
   }
 
