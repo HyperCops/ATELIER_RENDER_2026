@@ -5,23 +5,29 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Flask + Docker + GHCR + Terraform + Render"
+    return {"message": "Bienvenue sur l'API Flask Render !"}
 
-@app.route("/health")
-def health():
-    return {"status": "Tout est ok ou pas"}
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
-
+# Exercice 1 : Route Info
 @app.route("/info")
 def info():
     return {
         "app": "Flask Render",
-        "student": "De_Almeida_Major Anthony", # Remplace par ton vrai nom
+        "student": "TON_NOM_ICI",
         "version": "v1"
     }
+
+# Exercice 2 : Route Env
 @app.route("/env")
 def env():
-    return {"env": os.getenv("ENV")}
+    return {"env": os.getenv("ENV", "not_set")}
+
+# Test de connexion BDD pour la Séquence 5
+@app.route("/db_status")
+def db_status():
+    db_url = os.getenv("DATABASE_URL")
+    if db_url:
+        return {"status": "Configured", "url_detected": True}
+    return {"status": "Not Configured"}, 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
