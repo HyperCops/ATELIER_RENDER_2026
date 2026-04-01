@@ -40,7 +40,7 @@ resource "render_web_service" "flask_app" {
 
 # --- Service 2 : Adminer (Gestion BDD) ---
 resource "render_web_service" "adminer" {
-  name   = "adminer-${var.github_actor}"
+  name   = "adminer-${var.github_actor}-v2"
   plan   = "free"
   region = "frankfurt"
 
