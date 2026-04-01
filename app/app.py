@@ -22,3 +22,6 @@ def info():
         "student": "De_Almeida_Major Anthony", # Remplace par ton vrai nom
         "version": "v1"
     }
+@app.route("/env")
+def env():
+    return {"env": os.getenv("ENV")}
