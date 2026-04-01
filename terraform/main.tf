@@ -1,4 +1,3 @@
-# --- CONFIGURATION GENERALE ---
 terraform {
   required_providers {
     render = {
@@ -13,19 +12,22 @@ provider "render" {
   owner_id = var.render_owner_id
 }
 
-variable "github_actor" {
-  type = string
-}
+# --- Déclaration des variables ---
+variable "render_api_key" { type = string }
+variable "render_owner_id" { type = string }
+variable "github_actor" { type = string }
+variable "image_url" { type = string }
+variable "image_tag" { type = string }
 
-# --- RESSOURCE 1 : FLASK ---
+# --- Service 1 : Flask API ---
 resource "render_web_service" "flask_app" {
   name   = "flask-render-iac-${var.github_actor}"
   plan   = "free"
   region = "frankfurt"
 
   env_vars = {
-    ENV = { value = "production" }
-    # Ajoute ici ton DATABASE_URL plus tard
+    ENV          = { value = "production" }
+    DATABASE_URL = { value = "postgresql://base_de_donnee_lo6i_user:CTEQOQg7oPk2RMW5GXDhYmInV9zpicyF@dpg-d76ig42dbo4c73bks710-a.frankfurt-postgres.render.com/base_de_donnee_lo6i" }
   }
 
   runtime_source = {
@@ -34,9 +36,9 @@ resource "render_web_service" "flask_app" {
       tag       = var.image_tag
     }
   }
-} # <--- IMPORTANT : On ferme bien Flask ici !
+}
 
-# --- RESSOURCE 2 : ADMINER ---
+# --- Service 2 : Adminer (Gestion BDD) ---
 resource "render_web_service" "adminer" {
   name   = "adminer-${var.github_actor}"
   plan   = "free"
@@ -44,7 +46,8 @@ resource "render_web_service" "adminer" {
 
   runtime_source = {
     image = {
-      image_url = "adminer:latest" # On utilise l'image officielle Docker
+      image_url = "adminer"
+      tag       = "latest"
     }
   }
-} # <--- On ferme Adminer ici
+}
