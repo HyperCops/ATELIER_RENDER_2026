@@ -27,7 +27,6 @@ resource "render_web_service" "flask_app" {
       value = "production"
     }
   }
-}
 
   runtime_source = {
     image = {
@@ -35,5 +34,4 @@ resource "render_web_service" "flask_app" {
       tag       = var.image_tag
     }
   }
-
 }
